@@ -7964,95 +7964,95 @@ window.Game = Game;
     "jump": [
       {
         "x": 130,
-        "y": 595,
+        "y": 560,
         "w": 175,
-        "h": 150
+        "h": 195
       },
       {
-        "x": 310,
-        "y": 595,
-        "w": 165,
-        "h": 150
+        "x": 309,
+        "y": 560,
+        "w": 176,
+        "h": 195
       }
     ],
     "sword_slash": [
       {
         "x": 137,
-        "y": 415,
+        "y": 405,
         "w": 164,
-        "h": 175
+        "h": 190
       },
       {
         "x": 331,
-        "y": 415,
+        "y": 405,
         "w": 164,
-        "h": 175
+        "h": 190
       },
       {
         "x": 520,
-        "y": 415,
+        "y": 405,
         "w": 150,
-        "h": 175
+        "h": 190
       },
       {
         "x": 675,
-        "y": 415,
+        "y": 405,
         "w": 157,
-        "h": 175
+        "h": 190
       }
     ],
     "sword_combo": [
       {
         "x": 137,
-        "y": 415,
+        "y": 405,
         "w": 164,
-        "h": 175
+        "h": 190
       },
       {
         "x": 331,
-        "y": 415,
+        "y": 405,
         "w": 164,
-        "h": 175
+        "h": 190
       },
       {
         "x": 520,
-        "y": 415,
+        "y": 405,
         "w": 150,
-        "h": 175
+        "h": 190
       },
       {
         "x": 675,
-        "y": 415,
+        "y": 405,
         "w": 157,
-        "h": 175
+        "h": 190
       }
     ],
     "lasso": [
       {
         "x": 485,
-        "y": 595,
-        "w": 170,
-        "h": 150
+        "y": 560,
+        "w": 180,
+        "h": 195
       },
       {
         "x": 665,
-        "y": 595,
+        "y": 560,
         "w": 218,
-        "h": 150
+        "h": 195
       }
     ],
     "block": [
       {
-        "x": 310,
-        "y": 595,
-        "w": 165,
-        "h": 150
+        "x": 485,
+        "y": 560,
+        "w": 180,
+        "h": 195
       },
       {
         "x": 485,
-        "y": 595,
-        "w": 170,
-        "h": 150
+        "y": 560,
+        "w": 180,
+        "h": 195
       }
     ],
     "hurt": [
@@ -11200,6 +11200,62 @@ class WonderNishi {
       const sx = this.facingRight ? this.x + 30 : this.x - 30;
       ctx.arc(sx, this.y - 35, 35, -Math.PI / 3, Math.PI / 3, !this.facingRight);
       ctx.stroke();
+      ctx.restore();
+    }
+
+    // Visible Golden Lasso whipping arc
+    if (this.state === 'lasso') {
+      ctx.save();
+      const progress = Math.max(0, Math.min(1, 1 - (this.attackTimer / 0.35)));
+      const startX = this.facingRight ? this.x + 35 : this.x - 35;
+      const startY = this.y - 48;
+      const reachDist = 260 * Math.sin(progress * Math.PI);
+      const targetX = this.facingRight ? startX + reachDist : startX - reachDist;
+      const targetY = startY + Math.sin(progress * Math.PI * 2) * 15;
+
+      // Draw multi-layered glowing Golden Lasso beam
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 4;
+      ctx.shadowColor = '#ffe066';
+      ctx.shadowBlur = 16;
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      const ctrlX = (startX + targetX) / 2;
+      const ctrlY = startY - 40 * Math.sin(progress * Math.PI);
+      ctx.quadraticCurveTo(ctrlX, ctrlY, targetX, targetY);
+      ctx.stroke();
+
+      // Golden Lasso Loop at the tip
+      ctx.beginPath();
+      ctx.ellipse(targetX, targetY, 20, 32, this.facingRight ? Math.PI / 6 : -Math.PI / 6, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Glowing Core
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Visible Aegis Barrier during Parry / Block
+    if (this.state === 'block') {
+      ctx.save();
+      const shieldColor = this.isParrying ? '#00f0ff' : '#ffd700';
+      ctx.strokeStyle = shieldColor;
+      ctx.lineWidth = 4;
+      ctx.shadowColor = shieldColor;
+      ctx.shadowBlur = 16;
+      ctx.beginPath();
+      const bx = this.facingRight ? this.x + 24 : this.x - 24;
+      ctx.arc(bx, this.y - 45, 42, -Math.PI / 2.6, Math.PI / 2.6, !this.facingRight);
+      ctx.stroke();
+
+      // Radiating defensive Aegis sparks
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(bx + (this.facingRight ? 20 : -20), this.y - 45, 4, 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
   }
