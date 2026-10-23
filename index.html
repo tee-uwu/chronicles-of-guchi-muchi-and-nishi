@@ -1318,6 +1318,319 @@ body::before { background-image: none; }
 @media(prefers-reduced-motion:reduce){.storybook-characters img{animation:none;}}
 
 
+
+/* ---------------------------------------------------------- GAMELOFT-STYLE TINYPLAY INTRO */
+#tinyplay-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #020204;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Outfit', sans-serif, system-ui;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#tinyplay-intro.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#intro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.intro-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(30, 42, 68, 0.35) 0%, rgba(10, 14, 25, 0.7) 45%, #010204 100%);
+  pointer-events: none;
+}
+
+.intro-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  z-index: 2;
+}
+
+.intro-shockwave {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), inset 0 0 15px rgba(130, 200, 255, 0.6);
+  opacity: 0;
+  transform: scale(0.3);
+  pointer-events: none;
+  transition: none;
+}
+
+.intro-shockwave.active {
+  animation: shockwaveExpand 1.4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes shockwaveExpand {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.4);
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+.logo-box-wrapper {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  opacity: 0;
+  transform: scale(0.8) translateZ(-40px);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .logo-box-wrapper {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+.logo-box-wrapper.reveal {
+  opacity: 1;
+  transform: scale(1) translateZ(0);
+  animation: logoFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes logoFloat {
+  0% {
+    transform: scale(1) translateY(0);
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(120, 180, 255, 0.3));
+  }
+  100% {
+    transform: scale(1.03) translateY(-4px);
+    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 40px rgba(180, 210, 255, 0.5));
+  }
+}
+
+.logo-back-glow {
+  position: absolute;
+  inset: -30px;
+  border-radius: 20px;
+  background: radial-gradient(circle, rgba(160, 200, 255, 0.35) 0%, rgba(80, 120, 220, 0.15) 50%, transparent 70%);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+.logo-box-wrapper.reveal .logo-back-glow {
+  opacity: 1;
+}
+
+.logo-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 10px 30px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(140, 180, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-shimmer {
+  position: absolute;
+  inset: -100%;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.1) 35%,
+    rgba(255, 255, 255, 0.85) 48%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.85) 52%,
+    rgba(255, 255, 255, 0.1) 65%,
+    transparent 80%
+  );
+  transform: translateX(-150%) translateY(-150%) rotate(25deg);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.logo-shimmer.sweep {
+  animation: shimmerPass 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes shimmerPass {
+  0% {
+    transform: translateX(-120%) translateY(-120%) rotate(25deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120%) translateY(120%) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.star-flare {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+}
+
+.star-flare.flash {
+  animation: starBurst 1.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes starBurst {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.6) rotate(45deg);
+  }
+  60% {
+    opacity: 0.9;
+    transform: scale(1.1) rotate(90deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(135deg);
+  }
+}
+
+.star-flare svg {
+  width: 100%;
+  height: 100%;
+  fill: #ffffff;
+  filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px #82c8ff);
+}
+
+.intro-subtitle {
+  margin-top: 32px;
+  font-family: 'Outfit', sans-serif, system-ui;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 2;
+}
+
+.intro-subtitle.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  letter-spacing: 0.75em;
+  text-indent: 0.75em;
+}
+
+.intro-skip-btn {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-family: 'Outfit', sans-serif, system-ui;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  animation: skipFadeIn 1s ease 1s forwards;
+}
+
+.intro-skip-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+@keyframes skipFadeIn {
+  to { opacity: 1; }
+}
+
+.intro-audio-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 28px;
+  font-family: 'Outfit', sans-serif, system-ui;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+}
+
   </style>
   <style>
 
@@ -1406,6 +1719,48 @@ body {background:radial-gradient(ellipse at 50% 9%,#4a354b 0%,#2b2037 68%,#1b162
 </head>
 <body>
   <noscript>This game needs JavaScript.</noscript>
+  <!-- GAMELOFT-STYLE CINEMATIC STUDIO INTRO -->
+  <div id="tinyplay-intro" role="banner" aria-label="TinyPlay Game Studio Intro">
+    <div class="intro-backdrop"></div>
+    <canvas id="intro-canvas"></canvas>
+
+    <div class="intro-stage">
+      <!-- Expanding Shockwave Ring -->
+      <div id="intro-shockwave" class="intro-shockwave"></div>
+
+      <!-- Central Logo Box -->
+      <div id="logo-box-wrapper" class="logo-box-wrapper">
+        <div class="logo-back-glow"></div>
+        <div class="logo-card">
+          <img src="tinyplay_box.png" alt="TINYPLAY GAME STUDIO" class="logo-img" />
+          <!-- Diagonal Light Shimmer Sweep -->
+          <div id="logo-shimmer" class="logo-shimmer"></div>
+          <!-- Star Lens Flare -->
+          <div id="star-flare" class="star-flare">
+            <svg viewBox="0 0 100 100">
+              <path d="M50 0 Q50 42 0 50 Q50 58 50 100 Q50 58 100 50 Q50 42 50 0 Z"></path>
+              <circle cx="50" cy="50" r="14" fill="#ffffff"></circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cinematic Subtitle -->
+      <div id="intro-subtitle" class="intro-subtitle">P R E S E N T S</div>
+    </div>
+
+    <!-- Audio hint -->
+    <div class="intro-audio-hint" id="audio-hint">
+      <span>🔊 Tap anywhere for sound</span>
+    </div>
+
+    <!-- Skip Button -->
+    <button id="skip-intro-btn" class="intro-skip-btn" aria-label="Skip Introduction">
+      <span>SKIP</span>
+      <span style="font-size: 14px;">⏭</span>
+    </button>
+  </div>
+
   <script>
 
 /* ============================================================================
@@ -1416,6 +1771,341 @@ body {background:radial-gradient(ellipse at 50% 9%,#4a354b 0%,#2b2037 68%,#1b162
    - Level 3: lvl3.mp3 (silent on avatar selection screen, plays during active game)
    - Seamlessly pauses when paused, mutes on sound toggle, stops on act switch/menu
    ========================================================================== */
+
+/* ============================================================================
+   TINYPLAY GAME STUDIO - GAMELOFT-STYLE CINEMATIC INTRO CONTROLLER
+   ========================================================================== */
+window.TinyPlayIntro = (function () {
+  let audioCtx = null;
+  let soundPlayed = false;
+  let isCompleted = false;
+  let animReq = null;
+  let timelineTimeouts = [];
+  let onCompleteCallbacks = [];
+  let particles = [];
+
+  function playGameloftSting() {
+    if (soundPlayed) return;
+    soundPlayed = true;
+
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!audioCtx) audioCtx = new AudioContext();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      const t = audioCtx.currentTime;
+
+      // 1. Sub-bass Cinematic Boom ("BWWOOOMM")
+      const subOsc = audioCtx.createOscillator();
+      const subGain = audioCtx.createGain();
+      subOsc.type = 'sine';
+      subOsc.frequency.setValueAtTime(82, t);
+      subOsc.frequency.exponentialRampToValueAtTime(32, t + 1.6);
+
+      subGain.gain.setValueAtTime(0.75, t);
+      subGain.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
+
+      subOsc.connect(subGain);
+      subGain.connect(audioCtx.destination);
+      subOsc.start(t);
+      subOsc.stop(t + 1.9);
+
+      // 2. Cinematic Whoosh / Atmospheric Metallic Shimmer
+      const bufferSize = Math.floor(audioCtx.sampleRate * 1.5);
+      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = noiseBuffer;
+
+      const noiseFilter = audioCtx.createBiquadFilter();
+      noiseFilter.type = 'bandpass';
+      noiseFilter.frequency.setValueAtTime(450, t);
+      noiseFilter.frequency.exponentialRampToValueAtTime(2800, t + 0.6);
+      noiseFilter.frequency.exponentialRampToValueAtTime(800, t + 1.5);
+      noiseFilter.Q.setValueAtTime(4.0, t);
+
+      const noiseGain = audioCtx.createGain();
+      noiseGain.gain.setValueAtTime(0.001, t);
+      noiseGain.gain.linearRampToValueAtTime(0.28, t + 0.5);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(audioCtx.destination);
+      noise.start(t);
+
+      // 3. Iconic Ascending 4-Note Gameloft Chimes (C5 -> E5 -> G5 -> C6)
+      const notes = [
+        { f: 523.25, time: 0.25 }, // C5
+        { f: 659.25, time: 0.55 }, // E5
+        { f: 783.99, time: 0.85 }, // G5
+        { f: 1046.50, time: 1.15 } // C6
+      ];
+
+      notes.forEach((n, idx) => {
+        const nt = t + n.time;
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(n.f, nt);
+
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(n.f * 2, nt);
+
+        const isLast = (idx === notes.length - 1);
+        const dur = isLast ? 2.2 : 0.8;
+        const vol = isLast ? 0.45 : 0.28;
+
+        gain1.gain.setValueAtTime(vol, nt);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, nt + dur);
+
+        gain2.gain.setValueAtTime(vol * 0.45, nt);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, nt + dur * 0.7);
+
+        osc1.connect(gain1);
+        osc2.connect(gain2);
+        gain1.connect(audioCtx.destination);
+        gain2.connect(audioCtx.destination);
+
+        osc1.start(nt);
+        osc2.start(nt);
+        osc1.stop(nt + dur + 0.05);
+        osc2.stop(nt + dur + 0.05);
+      });
+
+      // 4. Warm Sustained Harmonic Pad Chord
+      const chord = [261.63, 392.00, 523.25, 659.25];
+      chord.forEach(freq => {
+        const padOsc = audioCtx.createOscillator();
+        const padGain = audioCtx.createGain();
+        padOsc.type = 'sine';
+        padOsc.frequency.setValueAtTime(freq, t + 1.15);
+
+        padGain.gain.setValueAtTime(0.001, t + 1.15);
+        padGain.gain.linearRampToValueAtTime(0.12, t + 1.35);
+        padGain.gain.exponentialRampToValueAtTime(0.0001, t + 2.8);
+
+        padOsc.connect(padGain);
+        padGain.connect(audioCtx.destination);
+        padOsc.start(t + 1.15);
+        padOsc.stop(t + 2.85);
+      });
+
+    } catch (err) {
+      console.warn('Intro sound error:', err);
+    }
+  }
+
+  function initParticles(canvas) {
+    particles = [];
+    const count = 48;
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: (Math.random() - 0.5) * canvas.width * 1.5,
+        y: (Math.random() - 0.5) * canvas.height * 1.5,
+        z: Math.random() * 800 + 100,
+        sz: Math.random() * 2 + 0.8,
+        speed: Math.random() * 1.8 + 0.8,
+        color: Math.random() > 0.4 ? 'rgba(255,255,255,' : 'rgba(140,200,255,'
+      });
+    }
+  }
+
+  function renderParticles(canvas, ctx) {
+    if (!canvas || !ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.z -= p.speed;
+      if (p.z <= 10) {
+        p.z = 800;
+        p.x = (Math.random() - 0.5) * canvas.width * 1.5;
+        p.y = (Math.random() - 0.5) * canvas.height * 1.5;
+      }
+
+      const scale = 300 / p.z;
+      const px = cx + p.x * scale;
+      const py = cy + p.y * scale;
+
+      if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+        const alpha = Math.min(1, (800 - p.z) / 400);
+        ctx.fillStyle = p.color + alpha + ')';
+        ctx.beginPath();
+        ctx.arc(px, py, p.sz * scale, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    animReq = requestAnimationFrame(() => renderParticles(canvas, ctx));
+  }
+
+  function start() {
+    isCompleted = false;
+    soundPlayed = false;
+    timelineTimeouts.forEach(t => clearTimeout(t));
+    timelineTimeouts = [];
+
+    const modal = document.getElementById('tinyplay-intro');
+    if (!modal) return;
+    const canvas = document.getElementById('intro-canvas');
+    let ctx = null;
+    if (canvas) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx = canvas.getContext('2d');
+      initParticles(canvas);
+      if (animReq) cancelAnimationFrame(animReq);
+      renderParticles(canvas, ctx);
+    }
+
+    const boxWrapper = document.getElementById('logo-box-wrapper');
+    const shimmer = document.getElementById('logo-shimmer');
+    const flare = document.getElementById('star-flare');
+    const shockwave = document.getElementById('intro-shockwave');
+    const subtitle = document.getElementById('intro-subtitle');
+    const audioHint = document.getElementById('audio-hint');
+
+    modal.style.display = 'flex';
+    modal.classList.remove('fade-out');
+    if (boxWrapper) boxWrapper.classList.remove('reveal');
+    if (shimmer) shimmer.classList.remove('sweep');
+    if (flare) flare.classList.remove('flash');
+    if (shockwave) shockwave.classList.remove('active');
+    if (subtitle) subtitle.classList.remove('reveal');
+    if (audioHint) audioHint.style.opacity = '1';
+
+    // Auto-attempt audio
+    timelineTimeouts.push(setTimeout(() => {
+      playGameloftSting();
+    }, 200));
+
+    // Logo emerges
+    timelineTimeouts.push(setTimeout(() => {
+      if (boxWrapper) boxWrapper.classList.add('reveal');
+    }, 400));
+
+    // Shockwave
+    timelineTimeouts.push(setTimeout(() => {
+      if (shockwave) shockwave.classList.add('active');
+    }, 1100));
+
+    // Shimmer sweep
+    timelineTimeouts.push(setTimeout(() => {
+      if (shimmer) shimmer.classList.add('sweep');
+    }, 1300));
+
+    // Star flare burst
+    timelineTimeouts.push(setTimeout(() => {
+      if (flare) flare.classList.add('flash');
+    }, 1800));
+
+    // Presents subtitle
+    timelineTimeouts.push(setTimeout(() => {
+      if (subtitle) subtitle.classList.add('reveal');
+      if (audioHint) audioHint.style.opacity = '0';
+    }, 2100));
+
+    // Auto-finish at T = 4.0s
+    timelineTimeouts.push(setTimeout(() => {
+      finish();
+    }, 4000));
+  }
+
+  function finish() {
+    if (isCompleted) return;
+    isCompleted = true;
+    timelineTimeouts.forEach(t => clearTimeout(t));
+    timelineTimeouts = [];
+
+    const modal = document.getElementById('tinyplay-intro');
+    if (modal) modal.classList.add('fade-out');
+
+    setTimeout(() => {
+      if (animReq) cancelAnimationFrame(animReq);
+      if (modal) modal.style.display = 'none';
+    }, 850);
+
+    onCompleteCallbacks.forEach(cb => {
+      try { cb(); } catch (e) { console.error(e); }
+    });
+    onCompleteCallbacks = [];
+  }
+
+  function onComplete(cb) {
+    if (isCompleted) {
+      cb();
+    } else {
+      onCompleteCallbacks.push(cb);
+    }
+  }
+
+  function replay() {
+    start();
+  }
+
+  function bind() {
+    const modal = document.getElementById('tinyplay-intro');
+    const skipBtn = document.getElementById('skip-intro-btn');
+    if (!modal) return;
+
+    if (skipBtn) {
+      skipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        playGameloftSting();
+        finish();
+      });
+    }
+
+    modal.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('#skip-intro-btn')) return;
+      if (!soundPlayed) {
+        playGameloftSting();
+        const audioHint = document.getElementById('audio-hint');
+        if (audioHint) audioHint.style.opacity = '0';
+      } else {
+        finish();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('intro-canvas');
+      if (canvas && modal.style.display !== 'none') {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      bind();
+      start();
+    });
+  } else {
+    bind();
+    start();
+  }
+
+  return {
+    start,
+    finish,
+    replay,
+    onComplete,
+    playGameloftSting,
+    get isCompleted() { return isCompleted; }
+  };
+})();
+
 window.GameMusic = (function () {
   const sources = {
     1: 'lvl1.mp3',
@@ -2005,6 +2695,7 @@ window.GameMusic = (function () {
 
                   <div class="credits-actions">
                     <button class="menu-back-btn centered-btn" data-back="main" type="button">← RETURN TO MAIN MENU</button>
+              <button class="menu-back-btn centered-btn" id="replay-intro-btn" type="button" style="margin-left: 10px; background: #26162a; border-color: #8c6a91; color: #ffd2ea;">🎬 REPLAY STUDIO INTRO</button>
                   </div>
                 </div>
               </div>
@@ -2377,6 +3068,12 @@ window.GameMusic = (function () {
       }
 
       if (!btn) return;
+
+      if (btn.id === 'replay-intro-btn') {
+        hideMenuScene();
+        if (window.TinyPlayIntro) window.TinyPlayIntro.replay();
+        return;
+      }
 
       const act = btn.dataset.action;
       const back = btn.dataset.back;
@@ -2937,6 +3634,7 @@ window.GameMusic = (function () {
   // Boot / start gate
   // --------------------------------------------------------------------------
   const boot = {
+    isGameReady: false,
     progress(p, label) {
       const pct = Math.round(clamp(p, 0, 1) * 100);
       const fill = $('#boot-fill');
@@ -2946,7 +3644,11 @@ window.GameMusic = (function () {
     },
     ready() {
       return new Promise((resolve) => {
+        boot.isGameReady = true;
         const el = $('#boot');
+        $('#boot-status').textContent = 'Ready';
+        $('#boot-fill').style.width = '100%';
+
         const finish = () => {
           unlockAudio();
           if (coarse && canFullscreen && !fsEl() && viewport().w > viewport().h) toggleFullscreen();
@@ -2954,17 +3656,20 @@ window.GameMusic = (function () {
           showMenuScene('main');
           resolve();
         };
-        $('#boot-status').textContent = 'Ready';
-        $('#boot-fill').style.width = '100%';
-        if (coarse) {
-          const btn = $('#boot-start');
-          const hint = $('#boot-hint');
-          btn.hidden = false;
-          hint.hidden = viewport().w >= viewport().h;
-          hint.textContent = 'Best played in landscape';
-          btn.addEventListener('click', finish, { once: true });
+
+        if (window.TinyPlayIntro && !window.TinyPlayIntro.isCompleted) {
+          window.TinyPlayIntro.onComplete(finish);
         } else {
-          setTimeout(finish, 350);
+          if (coarse) {
+            const btn = $('#boot-start');
+            const hint = $('#boot-hint');
+            btn.hidden = false;
+            hint.hidden = viewport().w >= viewport().h;
+            hint.textContent = 'Best played in landscape';
+            btn.addEventListener('click', finish, { once: true });
+          } else {
+            setTimeout(finish, 200);
+          }
         }
       });
     }
